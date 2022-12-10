@@ -1,0 +1,5 @@
+.vscode
+crcExperiments
+*.o
+.DS*
+*.tar

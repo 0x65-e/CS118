@@ -49,21 +49,19 @@ class ACLTable
 {
 public:
   /**
-   * IMPLEMENT THIS METHOD
-   *
    * This method should lookup a proper entry in the ACL table
    * using "ternary match" algorithm
    *
    * If ACL table not found, `throw std::runtime_error("ACL entry not found")`
    */
   ACLTableEntry
-  lookup(uint32_t srcIp, uint32_t dstIp, uint8_t protocol, uint32_t srcPort, uint16_t dstPort) const;
+  lookup(uint32_t srcIp, uint32_t dstIp, uint8_t protocol, uint16_t srcPort, uint16_t dstPort) const;
 
   bool
   load(const std::string& file);
 
   void
-  addRule(ACLTableEntry& entry);
+  addRule(ACLTableEntry entry);
 
 private:
   std::list<ACLTableEntry> m_entries;

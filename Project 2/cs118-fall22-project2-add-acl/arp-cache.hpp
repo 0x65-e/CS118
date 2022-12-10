@@ -122,8 +122,6 @@ public:
   ~ArpCache();
 
   /**
-   * IMPLEMENT THIS METHOD
-   *
    * This method gets called every second. For each request sent out,
    * you should keep checking whether to resend a request or remove it.
    *

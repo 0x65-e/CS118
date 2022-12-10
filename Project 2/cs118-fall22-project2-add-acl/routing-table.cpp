@@ -25,19 +25,22 @@
 
 namespace simple_router {
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-// IMPLEMENT THIS METHOD
 RoutingTableEntry
 RoutingTable::lookup(uint32_t ip) const
 {
+  const RoutingTableEntry* best_route = nullptr;
+  for (const auto& route : m_entries) {
+    if ((best_route == nullptr || route.mask > best_route->mask) && (route.dest & route.mask) == (ip & route.mask)) {
+      best_route = &route;
+    }
+  }
 
-  // FILL THIS IN
-
-  throw std::runtime_error("Routing entry not found");
+  if (best_route == nullptr) {
+    throw std::runtime_error("Routing entry not found");
+  } else {
+    return *best_route;
+  }
 }
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
 // You should not need to touch the rest of this code.
 

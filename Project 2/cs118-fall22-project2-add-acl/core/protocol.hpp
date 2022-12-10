@@ -87,7 +87,7 @@ struct ip_hdr
   unsigned int ip_v:4;             /* version */
   unsigned int ip_hl:4;            /* header length */
 #else
-#error "Byte ordering ot specified "
+#error "Byte ordering not specified"
 #endif
   uint8_t ip_tos;                  /* type of service */
   uint16_t ip_len;                 /* total length */
@@ -121,6 +121,8 @@ struct ethernet_hdr
 
 enum ip_protocol {
   ip_protocol_icmp = 0x0001,
+  ip_protocol_tcp = 0x0006,
+  ip_protocol_udp = 0x0011,
 };
 
 enum ethertype {

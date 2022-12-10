@@ -26,8 +26,8 @@ This is inherited from UCLA CS118 2017 Spring Quarter Project 3 (http://web.cs.u
 
 ## TODO
 
-    ###########################################################
-    ##                                                       ##
-    ## REPLACE CONTENT OF THIS FILE WITH YOUR PROJECT REPORT ##
-    ##                                                       ##
-    ###########################################################
+Name: Matthew Craig
+
+UID: 000000000
+
+I used no additional libraries beyond the C++ standard library (mostly `<algorithm>` and `<memory>`). The only online reference sources I used were [man pages](https://linux.die.net/man/) and [cppreference.com](https://en.cppreference.com/w/).

@@ -38,12 +38,10 @@ class RoutingTable
 {
 public:
   /**
-   * IMPLEMENT THIS METHOD
-   *
    * This method should lookup a proper entry in the routing table
    * using "longest-prefix match" algorithm
    *
-   * If routing table not found, `throw std::runtime_error("Routing entry not found")`
+   * If routing table entry not found, `throw std::runtime_error("Routing entry not found")`
    */
   RoutingTableEntry
   lookup(uint32_t ip) const;

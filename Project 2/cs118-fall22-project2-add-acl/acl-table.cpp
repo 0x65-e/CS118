@@ -51,25 +51,30 @@ std::vector<std::string> splitStr(const std::string& s, const std::string& delim
 
 namespace simple_router {
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-// IMPLEMENT THESE METHODS
 ACLTableEntry
-ACLTable::lookup(uint32_t srcIp, uint32_t dstIp, uint8_t protocol, uint32_t srcPort, uint16_t dstPort) const
+ACLTable::lookup(uint32_t srcIp, uint32_t dstIp, uint8_t protocol, uint16_t srcPort, uint16_t dstPort) const
 {
-  // FILL THIS IN
+  const ACLTableEntry* priority_rule = nullptr;
+  for (const ACLTableEntry& entry : m_entries) {
+    if ((priority_rule == nullptr || entry.priority > priority_rule->priority) && ((entry.protocol & entry.protocolMask) == (protocol & entry.protocolMask)) &&
+        ((entry.dest & entry.destMask) == (dstIp & entry.destMask)) && ((entry.src & entry.srcMask) == (srcIp & entry.srcMask)) &&
+        ((entry.srcPort & entry.srcPortMask) == (srcPort & entry.srcPortMask)) && ((entry.destPort & entry.destPortMask) == (dstPort & entry.destPortMask))) {
+          priority_rule = &entry;
+    }
+  }
 
-  throw std::runtime_error("ACL entry not found");
+  if (priority_rule == nullptr) {
+    throw std::runtime_error("ACL entry not found");
+  } else {
+    return *priority_rule;
+  }
 }
 
 void
-ACLTable::addRule(ACLTableEntry& entry)
+ACLTable::addRule(ACLTableEntry entry)
 {
-  // FILL THIS IN
+  m_entries.push_back(std::move(entry));
 }
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
 // You should not need to touch the rest of this code.
 
@@ -100,11 +105,11 @@ ACLTable::load(const std::string& fileName)
 
           temp = splitStr(fields[2], "&");
           uint16_t destPort = std::strtoul(temp[0].c_str(), NULL, 16);
-          uint16_t destPortMask = std::strtoul(temp[0].c_str(), NULL, 16);
+          uint16_t destPortMask = std::strtoul(temp[1].c_str(), NULL, 16);
 
           temp = splitStr(fields[3], "&");
           uint16_t srcPort = std::strtoul(temp[0].c_str(), NULL, 16);
-          uint16_t srcPortMask = std::strtoul(temp[0].c_str(), NULL, 16);
+          uint16_t srcPortMask = std::strtoul(temp[1].c_str(), NULL, 16);
 
           temp = splitStr(fields[4], "&");
           uint8_t protocol = std::strtoul(temp[0].c_str(), NULL, 16);
@@ -114,8 +119,7 @@ ACLTable::load(const std::string& fileName)
 
           std::string action = fields[6];
 
-          simple_router::ACLTableEntry entry = { dest, destMask, src, srcMask, destPort, destPortMask, srcPort, srcPortMask, protocol, protocolMask, priority, action};
-          addRule(entry);
+          addRule({ dest, destMask, src, srcMask, destPort, destPortMask, srcPort, srcPortMask, protocol, protocolMask, priority, action});
         }
       }
       catch(const std::exception& e)

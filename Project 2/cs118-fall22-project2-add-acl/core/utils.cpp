@@ -41,7 +41,7 @@ cksum(const void* _data, int len)
   const uint8_t* data = reinterpret_cast<const uint8_t*>(_data);
   uint32_t sum;
 
-  for (sum = 0;len >= 2; data += 2, len -= 2)
+  for (sum = 0; len >= 2; data += 2, len -= 2)
     sum += data[0] << 8 | data[1];
   if (len > 0)
     sum += data[0] << 8;

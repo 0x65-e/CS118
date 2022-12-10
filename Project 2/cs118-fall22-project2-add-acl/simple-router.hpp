@@ -34,8 +34,6 @@ public:
   SimpleRouter();
 
   /**
-   * IMPLEMENT THIS METHOD
-   *
    * This method is called each time the router receives a packet on
    * the interface.  The packet buffer \p packet and the receiving
    * interface \p inIface are passed in as parameters. The packet is
